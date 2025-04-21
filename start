@@ -1,1 +1,5 @@
+echo ~~~~~~ Public IP Address ~~~~~~ 
+curl ifconfig.me
+echo
+echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 nf start -e .env-$1
