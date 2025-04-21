@@ -93,6 +93,33 @@
     <!-- ---------------------------------–---------------------------------–
     / Apple Pay Button Customization.
     ---------------------------------–---------------------------------– -->
+
+    <style>
+        /* General badge styling */
+        .badge {
+            display: inline-block;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: bold;
+            color: white;
+            border-radius: 12px;
+            text-transform: uppercase;
+            text-align: center;
+            min-width: 100px;
+        }
+
+        /* Badge for production */
+        .badge.production {
+            background-color: red;
+        }
+
+        /* Badge for development */
+        .badge.dev {
+            background-color: green;
+        }
+    </style>
+    <div class="badge production" id="badge-production" style="display: none;">Production</div>
+    <div class="badge dev" id="badge-development" style="display: none;">Development</div>
 </div>
 <script>
     // Set up the onclick handler for the Apple Pay button
@@ -138,6 +165,7 @@
 
     setupCopyButton("copyBtn", "outcome", "copyMessage", "Apple Pay token copied to clipboard", "Failed to copy Apple Pay token");
     setupCopyButton("copyTokenIntentBtn", "token-intent", "copyTokenIntentMessage", "Token Intent copied to clipboard", "Failed to copy Token Intent");
+    initialize();
 </script>
 </body>
 </html>

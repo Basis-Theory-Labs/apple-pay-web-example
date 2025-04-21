@@ -1,13 +1,29 @@
 let cachedApiKey;
 let cachedBtApiUrl;
 
+async function initialize() {
+    if (!cachedApiKey) {
+        const configResponse = await axios.get('/config');
+        cachedApiKey = configResponse.data.apiKey;
+        cachedBtApiUrl = configResponse.data.apiUrl ?? "https://api.basistheory.com";
+
+        // Get the badge elements
+        const productionBadge = document.getElementById("badge-production");
+        const developmentBadge = document.getElementById("badge-development");
+
+        // Check the URL and toggle visibility
+        if (cachedBtApiUrl === "https://api.basistheory.com") {
+            productionBadge.style.display = "inline-block"; // Show the production badge
+            developmentBadge.style.display = "none"; // Hide the development badge
+        } else if (cachedBtApiUrl === "https://api.flock-dev.com") {
+            developmentBadge.style.display = "inline-block"; // Show the development badge
+            productionBadge.style.display = "none"; // Hide the production badge
+        }
+    }
+}
+
 async function validateMerchant() {
     try {
-        if (!cachedApiKey) {
-            const configResponse = await axios.get('/config');
-            cachedApiKey = configResponse.data.apiKey;
-            cachedBtApiUrl = configResponse.data.apiUrl ?? "https://api.basistheory.com";
-        }
 
         const options = {
             method: 'POST',
