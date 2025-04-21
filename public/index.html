@@ -106,6 +106,10 @@
             text-transform: uppercase;
             text-align: center;
             min-width: 100px;
+            position: fixed;
+            top: 10px; /* Offset from the top */
+            right: 10px; /* Offset from the right */
+            z-index: 1000; /* Ensures it floats above other content */
         }
 
         /* Badge for production */
@@ -117,9 +121,15 @@
         .badge.dev {
             background-color: green;
         }
+
+        /* Badge for local development */
+        .badge.local {
+            background-color: gray;
+        }
     </style>
     <div class="badge production" id="badge-production" style="display: none;">Production</div>
     <div class="badge dev" id="badge-development" style="display: none;">Development</div>
+    <div class="badge local" id="badge-local" style="display: none;">Local</div>
 </div>
 <script>
     // Set up the onclick handler for the Apple Pay button

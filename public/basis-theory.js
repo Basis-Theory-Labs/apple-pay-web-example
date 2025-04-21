@@ -10,27 +10,32 @@ async function initialize() {
         // Get the badge elements
         const productionBadge = document.getElementById("badge-production");
         const developmentBadge = document.getElementById("badge-development");
+        const localBadge = document.getElementById("badge-local");
 
         // Check the URL and toggle visibility
         if (cachedBtApiUrl === "https://api.basistheory.com") {
             productionBadge.style.display = "inline-block"; // Show the production badge
             developmentBadge.style.display = "none"; // Hide the development badge
+            localBadge.style.display = "none"; // Hide the local badge
         } else if (cachedBtApiUrl === "https://api.flock-dev.com") {
-            developmentBadge.style.display = "inline-block"; // Show the development badge
             productionBadge.style.display = "none"; // Hide the production badge
+            developmentBadge.style.display = "inline-block"; // Show the development badge
+            localBadge.style.display = "none"; // Hide the local badge
+        } else if (cachedBtApiUrl === "http://localhost:5090") {
+            productionBadge.style.display = "none"; // Hide the production badge
+            developmentBadge.style.display = "none"; // Hide the development badge
+            localBadge.style.display = "inline-block"; // Show the local badge
         }
     }
 }
 
 async function validateMerchant() {
     try {
-
         const options = {
             method: 'POST',
-            url: cachedBtApiUrl + '/connections/apple-pay/session',
+            url: 'https://' + window.location.host + '/session',
             headers: {
-                'Content-Type': 'application/json',
-                'BT-API-KEY': cachedApiKey
+                'Content-Type': 'application/json'
             },
             data: {
                 display_name: 'Ducks R Us',

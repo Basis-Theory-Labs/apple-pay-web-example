@@ -1,2 +1,2 @@
-tunnel: lt --subdomain robert-bt --port $PORT
+tunnel: lt --subdomain $SUBDOMAIN --port $PORT
 web: npm start
