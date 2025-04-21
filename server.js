@@ -7,7 +7,7 @@ const path = require('path');
 const {Agent} = require("node:https");
 const axios = require('axios');
 
-const basisTheoryApiUrl = 'https://api.basistheory.com';
+const basisTheoryApiUrl = process.env.BT_API_URL ?? 'https://api.basistheory.com';
 const btApiKey = process.env.BT_API_KEY;
 
 const app = express();
@@ -18,7 +18,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.get('/config', (req, res) => {
-    res.json({ apiKey: process.env.BT_API_KEY });
+    res.json({
+        apiKey: btApiKey,
+        apiUrl: basisTheoryApiUrl
+    });
 });
 
 app.post('/processPayment', async (req, res) => {
@@ -41,6 +44,14 @@ app.post('/processPayment', async (req, res) => {
         .catch(function (error) {
             res.send(error);
         });
+});
+
+app.get('/notification/merchantToken/:eventId', (req, res) => {
+    const { eventId } = req.params;
+    console.log(`Received notification for event ID: ${eventId}`);
+
+    // Process the event, e.g., store in database or trigger an action
+    res.status(200).json({ message: `Notification received for Event ID: ${eventId}` });
 });
 
 app.listen(port, () => {

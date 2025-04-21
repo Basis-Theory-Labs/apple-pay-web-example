@@ -1,15 +1,17 @@
 let cachedApiKey;
+let cachedBtApiUrl;
 
 async function validateMerchant() {
     try {
         if (!cachedApiKey) {
             const configResponse = await axios.get('/config');
             cachedApiKey = configResponse.data.apiKey;
+            cachedBtApiUrl = configResponse.data.apiUrl ?? "https://api.basistheory.com";
         }
 
         const options = {
             method: 'POST',
-            url: 'https://api.basistheory.com/connections/apple-pay/session',
+            url: cachedBtApiUrl + '/connections/apple-pay/session',
             headers: {
                 'Content-Type': 'application/json',
                 'BT-API-KEY': cachedApiKey

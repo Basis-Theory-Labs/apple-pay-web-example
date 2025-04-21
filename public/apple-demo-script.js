@@ -9,7 +9,9 @@ function onApplePayButtonClicked() {
         "countryCode": "US",
         "currencyCode": "USD",
         "merchantCapabilities": [
-            "supports3DS"
+            "supports3DS",
+            "supportsDebit",
+            "supportsCredit"
         ],
         "supportedNetworks": [
             "visa",
@@ -17,10 +19,29 @@ function onApplePayButtonClicked() {
             "amex",
             "discover"
         ],
+        "lineItems": [
+            {
+                "label": "Automatic Reload",
+                "amount": "15.00",
+                "paymentTiming": "automaticReload",
+                "automaticReloadPaymentThresholdAmount": "5.00"
+            }
+        ],
+        "automaticReloadPaymentRequest": {
+            "paymentDescription": "A description of the automatic reload that you provide and that appears in the payment sheet.",
+            "automaticReloadBilling": {
+                "label": "Automatic Reload",
+                "amount": "15.00",
+                "paymentTiming": "automaticReload",
+                "automaticReloadPaymentThresholdAmount": "5.00"
+            },
+            "billingAgreement": "A localized billing agreement that the app displays to the user in the payment sheet.",
+            "managementURL": "https://applepaydemo.apple.com",
+            "tokenNotificationURL": "https://applepaydemo.apple.com"
+        },
         "total": {
-            "label": "Demo (Card is not charged)",
-            "type": "final",
-            "amount": "1.99"
+            "label": "Automatic Reload Demo (Card is not charged)",
+            "amount": "15.00"
         }
     };
 
@@ -60,6 +81,9 @@ function onApplePayButtonClicked() {
     };
 
     session.onpaymentauthorized = event => {
+        const token = event.payment.token;
+        console.log('token', token);
+        console.log('merchantTokenIdentifier', token.merchantTokenIdentifier);
         performTransaction(event, session);
     };
 
