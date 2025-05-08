@@ -76,7 +76,7 @@ async function performTransaction(event, session) {
 
         // DEMO: Write out Basit Theory Token Intent
         const intentElement = document.getElementById("token-intent");
-        intentElement.value = JSON.stringify(response.data);
+        intentElement.value = JSON.stringify(response.data, null, 2);
 
         session.completePayment(ApplePaySession.STATUS_SUCCESS);
     } catch (error) {

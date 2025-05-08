@@ -9,9 +9,7 @@ function onApplePayButtonClicked() {
         "countryCode": "US",
         "currencyCode": "USD",
         "merchantCapabilities": [
-            "supports3DS",
-            "supportsDebit",
-            "supportsCredit"
+            "supports3DS"
         ],
         "supportedNetworks": [
             "visa",
@@ -27,17 +25,21 @@ function onApplePayButtonClicked() {
                 "automaticReloadPaymentThresholdAmount": "5.00"
             }
         ],
-        "automaticReloadPaymentRequest": {
+        "recurringPaymentRequest": {
             "paymentDescription": "A description of the automatic reload that you provide and that appears in the payment sheet.",
-            "automaticReloadBilling": {
-                "label": "Automatic Reload",
-                "amount": "15.00",
-                "paymentTiming": "automaticReload",
-                "automaticReloadPaymentThresholdAmount": "5.00"
+            "regularBilling": {
+                "label": "Subscription",
+                "amount": "20.00",
+                "type": "final",
+                "paymentTiming": "recurring",
+                "recurringPaymentStartDate": new Date("2025-06-01T00:00:00"),
+                "recurringPaymentIntervalUnit": "month",
+                "recurringPaymentIntervalCount": 6,
+                "recurringPaymentEndDate": new Date("2029-01-01T00:00:00"),
             },
             "billingAgreement": "A localized billing agreement that the app displays to the user in the payment sheet.",
-            "managementURL": "https://applepaydemo.apple.com",
-            "tokenNotificationURL": "https://applepaydemo.apple.com"
+            "managementURL": "https://robert-bt.loca.lt",
+            "tokenNotificationURL": "https://robert-bt.loca.lt"
         },
         "total": {
             "label": "Automatic Reload Demo (Card is not charged)",
