@@ -147,6 +147,14 @@
     </textarea>
 
 
+    <button id="copyApplePayTokenBtn">Copy Apple Pay Token</button>
+    <p id="copyApplePayTokenMessage"></p>
+    <label for="apple-pay-token">Basis Theory Apple Pay Token</label>
+    <textarea id="apple-pay-token" rows="20" cols="120">
+
+    </textarea>
+
+
     <button id="copyTokenIntentBtn">Copy Token Intent</button>
     <p id="copyTokenIntentMessage"></p>
     <label for="token-intent">Basis Theory Token Intent</label>
@@ -175,6 +183,7 @@
 
     setupCopyButton("copyBtn", "outcome", "copyMessage", "Apple Pay token copied to clipboard", "Failed to copy Apple Pay token");
     setupCopyButton("copyTokenIntentBtn", "token-intent", "copyTokenIntentMessage", "Token Intent copied to clipboard", "Failed to copy Token Intent");
+    setupCopyButton("copyApplePayTokenBtn", "apple-pay-token", "copyApplePayTokenMessage", "Apple Pay Token copied to clipboard", "Failed to copy Apple Pay Token");
     initialize();
 </script>
 </body>

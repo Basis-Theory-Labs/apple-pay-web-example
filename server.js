@@ -44,25 +44,44 @@ app.post('/session', async (req, res) => {
 });
 
 app.post('/processPayment', async (req, res) => {
-    // First, tokenize Apple Pay to Basis Theory Token Intent.
-    const tokenizeOptions = {
-        method: 'POST',
-        url: basisTheoryApiUrl + '/connections/apple-pay/tokenize',
-        headers: {'Content-Type': 'application/json', 'BT-API-KEY': btApiKey},
-        data: {
-            apple_payment_method_token: req.body.token
-        }
-    };
-    axios.request(tokenizeOptions)
-        .then(function (response) {
-            // Proxy the Token Intent to payment processor....
+    try {
+        // Define the first request options
+        const tokenizeOptions = {
+            method: 'POST',
+            url: basisTheoryApiUrl + '/connections/apple-pay/tokenize',
+            headers: { 'Content-Type': 'application/json', 'BT-API-KEY': btApiKey },
+            data: {
+                apple_payment_method_token: req.body.token
+            }
+        };
 
-            // For this demo, just return the token intent to browser
-            res.send(response.data);
-        })
-        .catch(function (error) {
-            res.send(error);
-        });
+        // Define the second request options
+        const paymentOptions = {
+            method: 'POST',
+            url: basisTheoryApiUrl + '/apple-pay',
+            headers: { 'Content-Type': 'application/json', 'BT-API-KEY': btApiKey },
+            data: {
+                expires_at: '2025-12-12',
+                apple_payment_data: req.body.token
+            }
+        };
+
+        // Perform both requests concurrently using Promise.all
+        const [tokenizeResponse, paymentResponse] = await Promise.all([
+            axios.request(tokenizeOptions),
+            axios.request(paymentOptions)
+        ]);
+
+        // Combine the responses into a single object and send the result
+        const result = {
+            tokenIntent: tokenizeResponse.data,
+            applePayToken: paymentResponse.data
+        };
+        res.send(result);
+    } catch (error) {
+        // Handle any error from either of the requests
+        res.status(500).send({ error: error.message });
+    }
 });
 
 app.get('/notification/merchantToken/:eventId', (req, res) => {

@@ -74,9 +74,13 @@ async function performTransaction(event, session) {
             }
         );
 
-        // DEMO: Write out Basit Theory Token Intent
+        // DEMO: Write out Basis Theory Token Intent
         const intentElement = document.getElementById("token-intent");
-        intentElement.value = JSON.stringify(response.data, null, 2);
+        intentElement.value = JSON.stringify(response.data.tokenIntent, null, 2);
+
+        // DEMO: Write out Basis Theory Apple Pay token
+        const tokenElement = document.getElementById("apple-pay-token");
+        tokenElement.value = JSON.stringify(response.data.applePayToken, null, 2);
 
         session.completePayment(ApplePaySession.STATUS_SUCCESS);
     } catch (error) {
