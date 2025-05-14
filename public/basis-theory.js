@@ -6,6 +6,7 @@ async function initialize() {
         const configResponse = await axios.get('/config');
         cachedApiKey = configResponse.data.apiKey;
         cachedBtApiUrl = configResponse.data.apiUrl ?? "https://api.basistheory.com";
+        useLegacySessionEndpoint = configResponse.data.useLegacySessionEndpoint;
 
         // Get the badge elements
         const productionBadge = document.getElementById("badge-production");
@@ -29,11 +30,20 @@ async function initialize() {
     }
 }
 
+function useConnectionsSession() {
+    const switchElement = document.getElementById('connectionSessionSwitch');
+    return switchElement.checked;
+}
+
 async function validateMerchant() {
+
     try {
+        let url = useConnectionsSession()
+            ? 'https://' + window.location.host + '/connections/session'
+            : 'https://' + window.location.host + '/session';
         const options = {
             method: 'POST',
-            url: 'https://' + window.location.host + '/session',
+            url: url,
             headers: {
                 'Content-Type': 'application/json'
             },

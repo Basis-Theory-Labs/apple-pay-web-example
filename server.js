@@ -25,10 +25,10 @@ app.get('/config', (req, res) => {
     });
 });
 
-app.post('/session', async (req, res) => {
+async function createSession(path, res) {
     const options = {
         method: 'POST',
-        url: basisTheoryApiUrl + '/connections/apple-pay/session',
+        url: basisTheoryApiUrl + path,
         headers: {
             'Content-Type': 'application/json',
             'BT-API-KEY': btApiKey
@@ -41,6 +41,14 @@ app.post('/session', async (req, res) => {
 
     const response = await axios.request(options);
     res.send(response.data);
+}
+
+app.post('/connections/session', async (req, res) => {
+    await createSession('/connections/apple-pay/session', res);
+});
+
+app.post('/session', async (req, res) => {
+    await createSession('/apple-pay/session', res);
 });
 
 app.post('/processPayment', async (req, res) => {
