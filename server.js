@@ -92,13 +92,33 @@ app.post('/processPayment', async (req, res) => {
     }
 });
 
-app.get('/notification/merchantToken/:eventId', (req, res) => {
+app.get('/notify/notification/merchantToken/:eventId', (req, res) => {
     const { eventId } = req.params;
     console.log(`Received notification for event ID: ${eventId}`);
 
     // Process the event, e.g., store in database or trigger an action
     res.status(200).json({ message: `Notification received for Event ID: ${eventId}` });
 });
+
+app.use('*', (req, res) => {
+    // Log request information
+    console.log('Unknown Request received', {
+        timestamp: new Date().toISOString(),
+        method: req.method,
+        originalUrl: req.originalUrl,
+        path: req.path,
+        params: req.params,
+        query: req.query,
+        body: req.body,
+        headers: req.headers
+    });
+
+    res.status(404).json({
+        status: 404,
+        message: 'Route not found'
+    });
+});
+
 
 app.listen(port, () => {
     console.log('Server running on ➡️ ', `http://localhost:${port}`);
