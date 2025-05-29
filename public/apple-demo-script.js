@@ -38,14 +38,16 @@ function onApplePayButtonClicked() {
                 "recurringPaymentEndDate": new Date("2029-01-01T00:00:00"),
             },
             "billingAgreement": "A localized billing agreement that the app displays to the user in the payment sheet.",
-            "managementURL": "https://robert-bt.loca.lt/notify",
-            "tokenNotificationURL": "https://robert-bt.loca.lt/notify"
+            "managementURL": cachedBtApiUrl + "/notify",
+            "tokenNotificationURL": cachedBtApiUrl + "/apple-pay/" + cachedTenantId
         },
         "total": {
             "label": "Automatic Reload Demo (Card is not charged)",
             "amount": "15.00"
         }
     };
+
+    console.log('request', request);
 
     // Create ApplePaySession
     const session = new ApplePaySession(3, request);

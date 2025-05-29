@@ -18,12 +18,31 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, 'public')))
 
-app.get('/config', (req, res) => {
-    res.json({
-        apiKey: btApiKey,
-        apiUrl: basisTheoryApiUrl
-    });
+app.get('/config', async (req, res) => {
+    const options = {
+        method: 'GET',
+        url: basisTheoryApiUrl + '/applications/key',
+        params: {type: ['private', 'public']},
+        headers: {
+            'BT-API-KEY': btApiKey
+        }
+    };
+
+    try {
+        const response = await axios.request(options);
+        console.log(response.data);
+
+        res.json({
+            apiKey: btApiKey,
+            apiUrl: basisTheoryApiUrl,
+            tenantId: response.data.tenant_id
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Failed to fetch configuration data' });
+    }
 });
+
 
 async function createSession(path, res) {
     const options = {

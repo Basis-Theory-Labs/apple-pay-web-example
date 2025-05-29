@@ -1,12 +1,13 @@
 let cachedApiKey;
 let cachedBtApiUrl;
+let cachedTenantId;
 
 async function initialize() {
     if (!cachedApiKey) {
         const configResponse = await axios.get('/config');
         cachedApiKey = configResponse.data.apiKey;
         cachedBtApiUrl = configResponse.data.apiUrl ?? "https://api.basistheory.com";
-        useLegacySessionEndpoint = configResponse.data.useLegacySessionEndpoint;
+        cachedTenantId = configResponse.data.tenantId;
 
         // Get the badge elements
         const productionBadge = document.getElementById("badge-production");
