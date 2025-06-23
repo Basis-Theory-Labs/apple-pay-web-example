@@ -38,7 +38,7 @@ function onApplePayButtonClicked() {
                 "recurringPaymentEndDate": new Date("2029-01-01T00:00:00"),
             },
             "billingAgreement": "A localized billing agreement that the app displays to the user in the payment sheet.",
-            "managementURL": cachedBtApiUrl + "/notify",
+            "managementURL": window.location.origin + "/notify",
             "tokenNotificationURL": cachedBtApiUrl + "/apple-pay/" + cachedTenantId
         },
         "total": {
